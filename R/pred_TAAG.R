@@ -56,7 +56,7 @@ pred.TAAG = function(object, newX, predict.CI = FALSE,  zalpha = 1.96){
       CILB <- (((y.hat - zalpha*sqrt(var.test))*lambda.new + 1)^(1/lambda.new))
       CIUB <- (((y.hat + zalpha*sqrt(var.test))*lambda.new + 1)^(1/lambda.new))
     }
-    return(list(Prediction=pre.Y,eta= eta.est, originalvar = var.test, Confidence95LB=CILB, Confidence95UB=CIUB))
+    return(list(Prediction=pre.Y, ConfidenceLB=CILB, ConfidenceUB=CIUB))
   }
 
 }

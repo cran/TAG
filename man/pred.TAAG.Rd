@@ -21,6 +21,11 @@ This function provides predictions from a TAAG process.
 }
 \value{
 The function returns predictions at newX and the confidence intervals (if predict.CI is TRUE).
+If predict.CI is TRUE, the values returned from the function is a list containing:
+\item{Prediction}{the prediction at newX.}
+\item{ConfidenceLB}{the lower bound of the prediction confidence interval at newX.(Note that the default is 95 \%.)}
+\item{ConfidenceUB}{the upper bound of the prediction confidence interval at newX.}
+
 }
 \references{
 Lin, L.-H. and Joseph,  V. R. (2019+) "Transformation and Additivity in Gaussian Processes", \emph{Technometrics, to appear}.  DOI:10.1080/00401706.2019.1665592.

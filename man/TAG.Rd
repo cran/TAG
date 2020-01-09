@@ -27,7 +27,7 @@ The values returned from the function is a list containing the following compone
 \item{omega}{The estimates of the weight parameters.}
 \item{s}{The estimates of the length scale parameters.}
 \item{lambda}{The estimate of the Box-Cox transformation parameter.}
-\item{delta}{The estimate of the nugget parameter.}
+\item{delta}{The estimate of the nugget parameter in log10 scale. For example, delta \eqn{= -6} means that the estimate of the nugget is \eqn{10^(-6)}.}
 \item{kappa}{If HighD is true, an estimate of kappa will be returned, which is a multiplication factor for the initial estimates of the length scale parameters.}
 \item{ty}{The transformed response vector.}
 \item{X}{The n by p input design matrix.}

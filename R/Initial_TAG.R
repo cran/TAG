@@ -8,7 +8,12 @@ initial.TAG <- function(y, X,  Candi.lambda= seq(from=-2, to=2,by=0.5),
   dat <- data.frame(y,X)
   colnames(dat) <- c("Y.t", paste0("x",1:d))
   ntemp=nsub
-  score.v <- rep(0,length=length( Candi.lambda))
+  score.v <- rep(0,length=length(Candi.lambda))
+  if(sum(y <= 0) != 0){
+    Candi.lambda = c(1)
+    score.v <- rep(0,length=length(Candi.lambda))
+  }
+
   for(ind in 1:length( Candi.lambda)){
     lam =  Candi.lambda[ind]
     if(lam == 0){
@@ -33,10 +38,8 @@ initial.TAG <- function(y, X,  Candi.lambda= seq(from=-2, to=2,by=0.5),
   lam <-  Candi.lambda[which.min(score.v)]
   if(lam == 0){
     Y.t <- log(y)
-    J <- sum(log(1/y))
   }else{
     Y.t <- (y^(lam) - 1)/lam
-    J <- sum(log(y^(lam - 1)))
   }
 
   ntemp <- ntemp - 1
@@ -59,12 +62,15 @@ initial.TAG <- function(y, X,  Candi.lambda= seq(from=-2, to=2,by=0.5),
 
   if(method.1d == "DiceKriging"){
     for(ind in 1:d){
-      temp.m <- km(formula=~1, design=as.matrix(newd[,ind]), response=pred[,ind], covtype="gauss", nugget = nug, multistart = rannum)
+      temp.m <- km(formula=~1, design=as.matrix(newd[,ind]), response=pred[,ind],
+                   covtype="gauss", nugget = nug, multistart = rannum,
+                   control = list(trace = FALSE, verbose = FALSE))
       parini[ind,2] <- sqrt(2*(coef(temp.m)$range^2))
     }
   }else if(method.1d == "mlegp"){
     for(ind in 1:d){
-      parini[ind,2] <- 1/sqrt(mlegp(newd[,ind], pred[,ind], nugget=nug, nugget.known = 0)$beta)
+      parini[ind,2] <- 1/sqrt(mlegp(newd[,ind], pred[,ind], nugget=nug,
+                                    nugget.known = 0)$beta)
     }
   }else{
     stop("Please Specify method.1d = 'DiceKriging' or 'mlegp'")
@@ -79,6 +85,7 @@ initial.TAG <- function(y, X,  Candi.lambda= seq(from=-2, to=2,by=0.5),
   obj <- list(omega = omega.new, s = parini[,2], lambda=lam,
               delta = log(((1/rsq) - 1), base=10), y = y, X = X)
   class(obj) <- "initial.TAG"
+  if(sum(y <= 0) != 0){print("Warning: Part of the response is negative, so no transformation is used.")}
   return(obj)
 
 }
