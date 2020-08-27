@@ -7,6 +7,18 @@ initial.TAG <- function(y, X,  Candi.lambda= seq(from=-2, to=2,by=0.5),
   parini <- matrix(0,ncol=2,nrow=ncol(X))
   dat <- data.frame(y,X)
   colnames(dat) <- c("Y.t", paste0("x",1:d))
+  nbasis.v <- as.vector(apply(X, 2, function(vec){
+    length(unique(vec))
+    }))
+  if(d*nbasis > n){
+    if(round(n/d) >= 3){
+      nbasis <- round(n/d)
+      print(paste0("Warning: No Enough degrees of freedom, so nbasis = 10 is changed to nbasis =", nbasis,"."))
+    }else{
+      print("Warning: No Enough degrees of freedom.")
+    }
+  }
+  nbasis.v[nbasis.v > nbasis] <- nbasis
   ntemp=nsub
   score.v <- rep(0,length=length(Candi.lambda))
   if(sum(y <= 0) != 0){
@@ -25,9 +37,9 @@ initial.TAG <- function(y, X,  Candi.lambda= seq(from=-2, to=2,by=0.5),
     }
     dat[,1] <- Y.t
     if(big == TRUE){
-      b <- bam(as.formula(paste("Y.t ~ ",paste0("s(x",1:d,", k=",nbasis,")", collapse="+"))), data=dat)
+      b <- bam(as.formula(paste("Y.t ~ ",paste0("s(x",1:d,", k=",nbasis.v,")", collapse="+"))), data=dat)
     }else{
-      b <- gam(as.formula(paste("Y.t ~ ",paste0("s(x",1:d,", k=",nbasis,")", collapse="+"))), data=dat)
+      b <- gam(as.formula(paste("Y.t ~ ",paste0("s(x",1:d,", k=",nbasis.v,")", collapse="+"))), data=dat)
     }
     score.v[ind] <- b$gcv.ubre
 
@@ -44,7 +56,7 @@ initial.TAG <- function(y, X,  Candi.lambda= seq(from=-2, to=2,by=0.5),
 
   ntemp <- ntemp - 1
   dat[,1] <- Y.t
-  b <- bam(as.formula(paste("Y.t ~ ",paste0("s(x",1:d,", k=",nbasis,")", collapse="+"))),data=dat)
+  b <- bam(as.formula(paste("Y.t ~ ",paste0("s(x",1:d,", k=",nbasis.v,")", collapse="+"))),data=dat)
   Mat <- predict.gam(b, type = "terms")
   parini[, 1] <- apply(Mat,2,var)
   newd <- matrix(rep(c(0:ntemp)/ntemp,d), byrow=FALSE, ncol=d,nrow=(ntemp+1))
