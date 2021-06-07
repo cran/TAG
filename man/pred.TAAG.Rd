@@ -28,7 +28,7 @@ If predict.CI is TRUE, the values returned from the function is a list containin
 
 }
 \references{
-Lin, L.-H. and Joseph,  V. R. (2019+) "Transformation and Additivity in Gaussian Processes", \emph{Technometrics, to appear}.  DOI:10.1080/00401706.2019.1665592.
+Lin, L.-H. and Joseph,  V. R. (2020) "Transformation and Additivity in Gaussian Processes",\emph{Technometrics}, 62, 525-535.  DOI:10.1080/00401706.2019.1665592.
 }
 \seealso{
   \code{\link{TAAG}} for the estimates of the parameters in the TAAG.
@@ -48,7 +48,8 @@ pre.TAG <- pred.TAG(par.TAG, X.test)
 library(DiceKriging)
 set.seed(2)
 temp.m <- km(formula=~1, design=X, response=par.TAG$ty,
-   covtype="gauss",nugget = (10^-15), multistart = 4)
+   covtype="gauss",nugget = (10^-15), multistart = 4,
+   control = list(trace = FALSE, verbose = FALSE))
 nu.est <- sqrt(2*(coef(temp.m)$range^2))
 par.TAAG <- TAAG(par.TAG, nu.est)
 pre.TAAG <- pred.TAAG(par.TAAG, X.test)

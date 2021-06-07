@@ -18,7 +18,7 @@ This function provides a table for checking whther the TAAG process fits the dat
 A table of the fitted negative likelihood values and cross validation errors obtained from TAAG and the ordinary kriging models from dicekriging and mlegp is returned. Note that, for both criteria, the model with a smaller value are a better model.
 }
 \references{
-Lin, L.-H. and Joseph,  V. R. (2019+) "Transformation and Additivity in Gaussian Processes", \emph{Technometrics, to appear}.  DOI:10.1080/00401706.2019.1665592.
+Lin, L.-H. and Joseph,  V. R. (2020) "Transformation and Additivity in Gaussian Processes",\emph{Technometrics}, 62, 525-535.  DOI:10.1080/00401706.2019.1665592.
 }
 \seealso{
   \code{\link{TAAG}} for the estimates of the parameters in the TAG and TAAG, respectively.

@@ -22,7 +22,7 @@ The values returned from the function is a list containing:
 \item{TCV}{Leave-one-out cross validation errors in the transformed scale.}
 }
 \references{
-Lin, L.-H. and Joseph,  V. R. (2019+) "Transformation and Additivity in Gaussian Processes", \emph{Technometrics, to appear}.  DOI:10.1080/00401706.2019.1665592.
+Lin, L.-H. and Joseph,  V. R. (2020) "Transformation and Additivity in Gaussian Processes",\emph{Technometrics}, 62, 525-535.  DOI:10.1080/00401706.2019.1665592.
 }
 \seealso{
   \code{\link{TAG}} and  \code{\link{TAAG}} for the estimates of the parameters in the TAG and TAAG, respectively.

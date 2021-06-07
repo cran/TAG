@@ -39,11 +39,12 @@ The values returned from the function is a list containing the following compone
 \item{s}{The initial estimates of the length scale parameters.}
 \item{lambda}{The initial estimate of the Box-Cox transformation parameter.}
 \item{delta}{The initial estimate of the nugget parameter.}
+\item{nbases}{The number of bases used in each dimension.}
 \item{y}{The response vector.}
 \item{X}{The n by p input design matrix.}
 }
 \references{
-Lin, L.-H. and Joseph,  V. R. (2019+) "Transformation and Additivity in Gaussian Processes", \emph{Technometrics, to appear}. DOI:10.1080/00401706.2019.1665592.
+Lin, L.-H. and Joseph,  V. R. (2020) "Transformation and Additivity in Gaussian Processes",\emph{Technometrics}, 62, 525-535.  DOI:10.1080/00401706.2019.1665592.
 
 Olivier Roustant, David Ginsbourger, Yves Deville (2012). DiceKriging, DiceOptim: Two R Packages for the Analysis of Computer Experiments by Kriging-Based Metamodeling and Optimization. Journal of Statistical Software, 51, 1-55.
 
@@ -58,6 +59,17 @@ n <- 20
 p <- 2
 library(randtoolbox)
 X <-  sobol(n, dim = p, init = TRUE, scrambling = 2, seed = 20, normal = FALSE)
+y <- exp(2*sin(0.5*pi*X[,1]) + 0.5*cos(2.5*pi*X[,2]))
+ini.TAG <- initial.TAG(y, X)
+
+
+#An example for some inputs with fewer levels
+n <- 18
+p <- 2
+X1 <- rep(c(0,1,2)/3, 6) # A factor with fewer levels
+library(randtoolbox)
+X2 <-  sobol(n, dim = 1, init = TRUE, scrambling = 2, seed = 20, normal = FALSE)
+X <- cbind(X1, X2)
 y <- exp(2*sin(0.5*pi*X[,1]) + 0.5*cos(2.5*pi*X[,2]))
 ini.TAG <- initial.TAG(y, X)
 }

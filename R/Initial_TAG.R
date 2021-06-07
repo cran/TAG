@@ -4,26 +4,44 @@ initial.TAG <- function(y, X,  Candi.lambda= seq(from=-2, to=2,by=0.5),
 
   d <- ncol(X)
   n <- nrow(X)
-  parini <- matrix(0,ncol=2,nrow=ncol(X))
+  parini <- matrix(0, ncol=2, nrow=ncol(X))
   dat <- data.frame(y,X)
   colnames(dat) <- c("Y.t", paste0("x",1:d))
   nbasis.v <- as.vector(apply(X, 2, function(vec){
     length(unique(vec))
-    }))
-  if(d*nbasis > n){
-    if(round(n/d) >= 3){
-      nbasis <- round(n/d)
-      print(paste0("Warning: No Enough degrees of freedom, so nbasis = 10 is changed to nbasis =", nbasis,"."))
+  }))
+  if(sum(nbasis.v == 2) >= 1 || sum(nbasis.v == 1) >= 1){
+    print("Warning: The number of levels for some factors is less than 3, which cannot be used for fitting a nonlinear additive model")
+  }
+
+  index.discrete <- (nbasis.v <= nbasis)
+  nbasis.v[!index.discrete] <- nbasis
+  df.for.continuous <- n - sum(nbasis.v[index.discrete])
+
+  if(sum(nbasis.v[!index.discrete]) > df.for.continuous){
+    if(round(df.for.continuous/sum(!index.discrete)) >= 3){
+      nbasis.v[!index.discrete] <- round(df.for.continuous/sum(!index.discrete))
     }else{
       print("Warning: No Enough degrees of freedom.")
     }
   }
-  nbasis.v[nbasis.v > nbasis] <- nbasis
+  #nbasis.v <- as.vector(apply(X, 2, function(vec){
+  #  length(unique(vec))
+  #  }))
+  #if(d*nbasis > n){
+  #  if(round(n/d) >= 3){
+  #    nbasis <- round(n/d)
+  #    print(paste0("Warning: No Enough degrees of freedom, so nbasis = 10 is changed to nbasis =", nbasis,"."))
+  #  }else{
+  #    print("Warning: No Enough degrees of freedom.")
+  #  }
+  #}
+  #nbasis.v[nbasis.v > nbasis] <- nbasis
   ntemp=nsub
-  score.v <- rep(0,length=length(Candi.lambda))
+  score.v <- rep(0, length=length(Candi.lambda))
   if(sum(y <= 0) != 0){
     Candi.lambda = c(1)
-    score.v <- rep(0,length=length(Candi.lambda))
+    score.v <- rep(0, length=length(Candi.lambda))
   }
 
   for(ind in 1:length( Candi.lambda)){
@@ -95,7 +113,7 @@ initial.TAG <- function(y, X,  Candi.lambda= seq(from=-2, to=2,by=0.5),
   }
 
   obj <- list(omega = omega.new, s = parini[,2], lambda=lam,
-              delta = log(((1/rsq) - 1), base=10), y = y, X = X)
+              delta = log(((1/rsq) - 1), base=10), y = y, X = X, nbases = nbasis.v)
   class(obj) <- "initial.TAG"
   if(sum(y <= 0) != 0){print("Warning: Part of the response is negative, so no transformation is used.")}
   return(obj)

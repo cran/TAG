@@ -33,7 +33,7 @@ The values returned from the function is a list containing the following compone
 \item{X}{The n by p input design matrix.}
 }
 \references{
-Lin, L.-H. and Joseph,  V. R. (2019+) "Transformation and Additivity in Gaussian Processes", \emph{Technometrics, to appear}.  DOI:10.1080/00401706.2019.1665592.
+Lin, L.-H. and Joseph,  V. R. (2020) "Transformation and Additivity in Gaussian Processes",\emph{Technometrics}, 62, 525-535.  DOI:10.1080/00401706.2019.1665592.
 }
 \seealso{
   \code{\link{initial.TAG}} for finding the initial values for the parameters in a TAG process, and \code{\link{pred.TAG}} for prediction.

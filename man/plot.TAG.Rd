@@ -25,7 +25,7 @@ The location of the legend is "bottomright", "bottom", "bottomleft", "left", "to
 A main effects plot in the transformed scale of the response is returned.
 }
 \references{
-Lin, L.-H. and Joseph,  V. R. (2019+) "Transformation and Additivity in Gaussian Processes", \emph{Technometrics, to appear}.  DOI:10.1080/00401706.2019.1665592.
+Lin, L.-H. and Joseph,  V. R. (2020) "Transformation and Additivity in Gaussian Processes",\emph{Technometrics}, 62, 525-535.  DOI:10.1080/00401706.2019.1665592.
 }
 \seealso{
   \code{\link{TAG}} for finding estimates for the parameters in a TAG process.
